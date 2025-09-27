@@ -1,0 +1,121 @@
+
+.navigation > a {
+	color: black;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+a {
+	margin-bottom: 10px;
+	margin-left: 100px;
+	color:#aee8b4;
+	font-family: consolas;
+}
+
+#searchWord {
+	margin-left: 2px;
+	margin-right: 2px;
+	color:#d4a524;
+	font-family: consolas;
+	text-decoration: none;
+}
+
+#header, #container, #buttons, #message, #categories, table, .results-num {
+	margin-bottom: 10px;
+	margin-left: 100px;
+	margin-right: 100px;
+	font-family: consolas;
+	
+	}
+
+#header {
+	margin-top: 40px;
+	color: navy;
+}
+
+#db_id, #word, #searchDB, #categoryList, #meaning, #result, #msg {
+	margin-left:100px;
+	margin-bottom: 10px;
+	font-family: consolas;
+	font-size: 20px;
+}
+
+input[type='button'] {
+	margin-right:50px;
+	width: 110px;
+	height: 30px;
+	font-family: consolas;
+	font-size: 20px;
+}
+
+#buttons {
+	margin-top:20px;
+	margin-bottom:20px
+}
+
+#check {
+	margin-left:50px
+}
+.searching {
+	background-color: yellow;
+	color: black;
+}
+.success {
+	color: #05a30d;
+	font-weight: bold;
+	}
+
+.fail {
+	color: red;
+	font-weight: bold;
+	}
+
+.nail {
+	color: #8c0373;
+	font-weight: bold	
+}
+
+
+#question {
+	font-weight: bold;
+	font-size: 20px
+}
+	
+#message{
+	font-size: 20px;
+}
+
+button {
+	font-size: 18px;
+}
+
+label[for], input[type='radio'], #category {
+	margin: 15px 5px 10px;
+	font-size: 20px;
+	/* line-height: 1.6 */
+	}
+
+table {
+  border-collapse: collapse;
+  width: 85%;
+  font-size: 20px;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+  color: black
+}
+
+#searchDB, .results-num {
+	font-size: 20px;
+}
+
+span {
+	color: #e6564c;
+}

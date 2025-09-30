@@ -6,6 +6,7 @@ var startButton = document.getElementById('start');	// 'start quiz' button
 var checkButton = document.getElementById('check'); // check answer button
 var questionID, answerID;	// question and answer IDs
 var count = [];	
+var IDs = [];
 var message = document.getElementById('message'); // feedback message
 var searchBox = document.getElementById('searchDB'); // search box
 var searchResult = document.getElementById('searchResult'); // search results div
@@ -15,18 +16,24 @@ var searchResult = document.getElementById('searchResult'); // search results di
 // to get a random question with answers
 
 startButton.addEventListener('click', function(){
+	var toServer = JSON.stringify({
+	'IDs': IDs });
 	
 	message.innerHTML = '';
 	
-	// Make GET request to search db for a random question and answers
+	// Make POST request and send IDs list to server and search db for a random question and answers
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', '/get_quiz', true);
-	xhr.send();
+	xhr.open('POST', '/get_quiz', true);
+	xhr.setRequestHeader('Content-type', 'application/json');
+	xhr.send(toServer);
+
 	
 	// Process the response
 			xhr.onload = function(){
 			if (xhr.status === 200) {
 				data = JSON.parse(xhr.responseText);
+				IDs = data.IDs;
+				// console.log(IDs);
 				question.innerHTML = data.question;
 				
 				var content = ''

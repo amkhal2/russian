@@ -49,6 +49,9 @@ class Russian(db.Model):
 def quiz():
     # select 4 random records from db:
     results = db.engine.execute(''' SELECT * FROM Russian ORDER BY RANDOM() LIMIT 4''')
+    # count the # of records in db:
+    rows = db.engine.execute(''' SELECT COUNT(id) FROM Russian''')
+    count = [i[0] for i in rows][0] # will return the no. of rows in db as integer
     
     l = []
     for result in results:
@@ -77,7 +80,7 @@ def quiz():
     if k == 'meaning':
         question, answer, choix = (f'What is the Russian for "<span>{v[0]}</span>"?',sample["word"], get_choices(l,"word"))
         
-    return question, answer, choix
+    return question, answer, choix, count
     
     
 
@@ -94,16 +97,31 @@ def manage():
    
   
 
-@app.route('/get_quiz')
+@app.route('/get_quiz', methods=['POST'])
 def get_quiz():    
-    # UNWRAP THE TUPLE --> the 'quiz()'function  
-    # returns a tuple of three items (question, correct answer, choices)  
-    question, answer, choices = quiz()
+    # get the list of IDs from front end
+    data = request.get_json()
+    IDs = data['IDs']
     
-    questionID = str(answer[-1])
-    # questionID = '846'
-    
+    # Check that ID is unique
+    while True:
+        # UNWRAP THE TUPLE --> the 'quiz()'function  
+        # returns a tuple of 4 items (question, correct answer, choices, count)  
+        question, answer, choices, count = quiz()
+        questionID = str(answer[-1])
+        # questionID = '846'
+        if len(IDs) == count:
+            IDs = []
+        if questionID in IDs:
+            question, answer, choices, count = quiz()
+            questionID = str(answer[-1])   
+        if questionID not in IDs:
+            IDs.append(questionID)
+            break
+
+                
     data = {
+        "IDs": IDs,
         "question": question,
         "questionID": questionID,
         "answers": [

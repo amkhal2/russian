@@ -33,7 +33,7 @@ startButton.addEventListener('click', function(){
 			if (xhr.status === 200) {
 				data = JSON.parse(xhr.responseText);
 				IDs = data.IDs;
-				// console.log(IDs);
+				console.log(IDs);
 				question.innerHTML = data.question;
 				
 				var content = ''

@@ -26,6 +26,29 @@ def get_rows(path):
 ##    print(c)
     return refined_rows
 
+def get_alpha(path):
+    wb = load_workbook(path)
+    ws = wb["Sheet1"]
+    rows = iter(list(ws.rows))
+    a = next(rows)  # to skip the first row
+    
+    c = 0
+    refined_rows = []
+    for row in rows:
+        if row[1].value and row[2].value: 
+##            print(row[1].value)     # letter
+##            print(row[2].value)     # sound
+##            print()
+
+            refined_rows.append((row[1].value, row[2].value))
+            c = c + 1
+
+##    print(c)
+    return refined_rows
+    
+    
+    
+
 ##get_rows(path)
 
 ##rows = get_rows(path)

@@ -5,6 +5,26 @@
 	font-weight: bold;
 }
 
+.ruski {
+	font-size: 30px;
+	font-weight: normal;
+}
+
+.MCQ > label > b {
+	color: #5e40a8;
+	font-size: 22px;
+}
+
+#answer {
+	margin-left:100px;
+	margin-bottom: 10px;
+	font-family: consolas;
+	font-size: 30px;
+	font-weight: normal;
+	border-style: hidden;
+	width: 600px;
+}
+
 a {
 	margin-bottom: 10px;
 	margin-left: 100px;

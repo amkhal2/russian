@@ -13,7 +13,7 @@
 			<a href='{{ url_for("manage") }}'>Manage Records</a>
 		</div>
 		
-		<h2 id="header">Russian Quiz App</h2>
+		<h2 id="header">Typing Quiz</h2>
 		
 		<div id="buttons">
 			<button id="start">Start Quiz</button>
@@ -28,6 +28,10 @@
 			</div>
 		</div>
 		
+		<div class="answerBox">
+			<input type="text" id="answer" placeholder="Type Answer...">
+		</div>
+		
 		<div id="message"></div>
 		
 		<div class="search">
@@ -35,7 +39,7 @@
 			<div id="searchResult"></div>
 		</div>
 		
-		<script src="{{ url_for('static', filename='script.js') }}"></script>
+		<script src="{{ url_for('static', filename='typing.js') }}"></script>
 	</body>
 	
 </html>

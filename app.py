@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from excel import get_rows
+from excel import get_rows, get_alpha
 from flask_sqlalchemy import SQLAlchemy
 import os, random
 from itertools import cycle  # to go throw category list items continuosly
@@ -15,7 +15,8 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
 
-excel_file = r"Russian Dictionary.xlsx"
+dic_file = r"Russian Dictionary.xlsx"
+alpha_file = r"Cyrillic letters.xlsx"
 
 
 # Create database table using SQLAlchemy
@@ -25,6 +26,11 @@ class Russian(db.Model):
     sound = db.Column(db.String)
     meaning = db.Column(db.String)
 
+# Create database table for Cyrillic alphabet
+class Alpha(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    letter = db.Column(db.String, unique=True)
+    sound = db.Column(db.String)
 
 ## 1) CREATE THE DATABASE: Run Python shell with "python" command --->
 ##    import db with "from app import db" 
@@ -82,7 +88,37 @@ def quiz():
         
     return question, answer, choix, count
     
+def alpha_quiz():
+    # select 4 random records from db:
+    results = db.engine.execute(''' SELECT * FROM Alpha ORDER BY RANDOM() LIMIT 4''')
     
+    l = []
+    for result in results:
+        d = {}
+        d["letter"] = result.letter
+        d["sound"] = result.sound
+        d["id"] = result.id
+        l.append(d)
+    
+    sample = random.choice(l)
+    question = f"What is the sound of \"<span class=\'ruski\'>{sample['letter']}</span>\"?" 
+    questionID = sample['id']
+    choices = [(i['sound'], i['id']) for i in l]
+    
+    return question, questionID, choices
+
+def typing_quiz():
+    # select 1 random record from db:
+    results = db.engine.execute(''' SELECT * FROM Russian ORDER BY RANDOM() LIMIT 1''')
+    # count the # of records in db:
+    rows = db.engine.execute(''' SELECT COUNT(id) FROM Russian''')
+    count = [i[0] for i in rows][0] # will return the no. of rows in db as integer
+    
+    results = [(i.word, i.id) for i in results]
+    question = f"<span class='ruski'>{results[0][0]}</span>"
+    questionID = results[0][1]
+        
+    return question, questionID, count
 
 @app.route('/')
 def index():
@@ -94,8 +130,82 @@ def index():
 @app.route('/manage')
 def manage():
     return render_template('manage.html')
+
+@app.route('/alpha')
+def alpha():
+    return render_template('alpha.html')
+
+@app.route('/typing')
+def typing():
+    return render_template('typing.html')
+
+@app.route('/get_typing', methods=['POST'])
+def get_typing():    
+    # get the list of IDs from front end
+    data = request.get_json()
+    IDs = data['IDs']
+      
+    # Check that ID is unique
+    while True:
+        # UNWRAP THE TUPLE --> the 'typing_quiz()'function  
+        # returns a tuple of 3 items (question, questionID, count)  
+        question, questionID, count = typing_quiz()
+        questionID = str(questionID)
+        # questionID = '846'
+        if len(IDs) == count:
+            IDs = []
+        if questionID in IDs:
+            question, questionID, count = typing_quiz()
+            questionID = str(questionID)   
+        if questionID not in IDs:
+            IDs.append(questionID)
+            break
+
+                
+    data = {
+        "IDs": IDs,
+        "question": question,
+        "questionID": questionID
+        }
+    
+    return jsonify(data) 
    
-  
+@app.route('/get_alpha', methods=['POST'])
+def get_alpha():    
+    # get the list of IDs from front end
+    data = request.get_json()
+    IDs = data['IDs']
+      
+    # Check that ID is unique
+    while True:
+        # UNWRAP THE TUPLE --> the 'alpha_quiz()'function  
+        # returns a tuple of 3 items (question, questionID, choices)  
+        question, questionID, choices = alpha_quiz()
+        questionID = str(questionID)
+        # questionID = '846'
+        if len(IDs) == 33:
+            IDs = []
+        if questionID in IDs:
+            question, questionID, choices = alpha_quiz()
+            questionID = str(questionID)   
+        if questionID not in IDs:
+            IDs.append(questionID)
+            break
+
+                
+    data = {
+        "IDs": IDs,
+        "question": question,
+        "questionID": questionID,
+        "answers": [
+                {'answer_id': choices[0][-1], 'answer': choices[0][0]},
+                {'answer_id': choices[1][-1], 'answer': choices[1][0]},
+                {'answer_id': choices[2][-1], 'answer': choices[2][0]},
+                {'answer_id': choices[3][-1], 'answer': choices[3][0]}
+            ]
+        }
+    
+    return jsonify(data) 
 
 @app.route('/get_quiz', methods=['POST'])
 def get_quiz():    

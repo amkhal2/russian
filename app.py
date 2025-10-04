@@ -1,5 +1,5 @@
 from flask import Flask, render_template, jsonify, request
-from excel import get_rows, get_alpha
+from excel import get_rows, alphabet
 from flask_sqlalchemy import SQLAlchemy
 import os, random
 from itertools import cycle  # to go throw category list items continuosly

@@ -20,13 +20,13 @@ def get_rows(path):
 ##            print(row[3].value)     # meaning
 ##            print()
 
-            refined_rows.append((row[1].value, row[2].value, row[3].value))
+            refined_rows.append((row[1].value.strip(), row[2].value.strip(), row[3].value.strip()))
             c = c + 1
 
 ##    print(c)
     return refined_rows
 
-def get_alpha(path):
+def alphabet(path):
     wb = load_workbook(path)
     ws = wb["Sheet1"]
     rows = iter(list(ws.rows))

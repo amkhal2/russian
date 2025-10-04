@@ -8,7 +8,11 @@
 .ruski {
 	font-size: 30px;
 	font-weight: normal;
+	color: #aa1212;
+	/* font-weight: bold; */
 }
+
+
 
 .MCQ > label > b {
 	color: #5e40a8;
@@ -21,9 +25,14 @@
 	font-family: consolas;
 	font-size: 30px;
 	font-weight: normal;
-	border-style: hidden;
-	width: 600px;
+	border: none;
+	width: 800px;
 }
+
+#answer:focus { /*to remove the border surrounding the input box when user clicks it*/
+	outline: none;
+}
+
 
 a {
 	margin-bottom: 10px;

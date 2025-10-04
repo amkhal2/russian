@@ -12,6 +12,11 @@
 	/* font-weight: bold; */
 }
 
+#keyboard {
+	width: 55%;
+	height: auto; /* to make the image responsive when the window is minimized*/
+	
+}
 
 
 .MCQ > label > b {
@@ -49,7 +54,7 @@ a {
 	text-decoration: none;
 }
 
-#header, #container, #buttons, #message, #categories, table, .results-num {
+#header, #keyboard, #container, #buttons, #message, #categories, table, .results-num {
 	margin-bottom: 10px;
 	margin-left: 100px;
 	margin-right: 100px;

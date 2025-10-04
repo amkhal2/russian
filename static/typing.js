@@ -2,7 +2,7 @@
 
 var question = document.getElementById('question'); // question 
 var startButton = document.getElementById('start');	// 'start quiz' button
-var checkButton = document.getElementById('check'); // check answer button
+var checkButton = document.getElementById('check'); // 'check answer' button
 var questionID, answerID, answer;	// question and answer IDs
 var count = [];	
 var IDs = [];
@@ -20,6 +20,7 @@ startButton.addEventListener('click', function(){
 	'IDs': IDs });
 	
 	message.innerHTML = '';
+	answerBox.value = '';
 	
 	// Make POST request and send IDs list to server and search db for a random question and answers
 	var xhr = new XMLHttpRequest();

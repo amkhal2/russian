@@ -20,7 +20,7 @@ def get_rows(path):
 ##            print(row[3].value)     # meaning
 ##            print()
 
-            refined_rows.append((row[1].value.strip(), row[2].value.strip(), row[3].value.strip()))
+            refined_rows.append((row[1].value.strip(), row[2].value.strip(), str(row[3].value).strip()))
             c = c + 1
 
 ##    print(c)
